@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring 
+	http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<!--
+		配置 转换器，对于在basePackage设置的包（包括子包）下的接口类，
+		如果接口类的全类名在Mapper.xml文件中和定义过命名空间一致，将
+		被转换成spring的BEAN，在调用 的地方通过@Autowired方式将
+		可以注入接口实例 
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.netease.course.dao" />
+	</bean>
+	
+	<!-- 代替上面配置 -->
+	<!-- <mybatis:scan base-package="com.netease.course.dao"/> -->
+
+	<!-- 配置session工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 配置扫描式加载SQL映射文件,去掉mybatis-config配置 -->
+		<property name="configLocation" value="classpath:MyBatis-Config.xml" />
+		<property name="mapperLocations" 
+			value="classpath:com/netease/course/dao/*.xml"/>
+	</bean> 
+
+	<!-- 配置事务管理器,管理数据源事务处理 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 配置事务通知 -->
+	<tx:advice id="advice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 默认只处理运行时异常，可加rollback-for="Exception/Throwable"等处理所有异常或包括错误 -->
+			<tx:method name="insert*" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="update*" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="delete*" propagation="REQUIRED"
+				rollback-for="Exception" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="*" propagation="SUPPORTS" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置切面织入的范围,事务边界定在service层 -->
+	<aop:config>
+		<aop:advisor advice-ref="advice"
+			pointcut="execution(* com.netease.course.service.impl.*.*(..))" />
+	</aop:config>
+	
+	<!-- 载入外部数据库配置文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	
+	<!-- 配置数据库连接池，去掉myBatis-config.xml的数据源相关配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxWait" value="1000" />
+		<property name="maxActive" value="100" />
+		<property name="maxIdle" value="50" />
+		<property name="minIdle" value="20" />
+		<property name="initialSize" value="20" />
+		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="select 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="300000" />
+		<property name="minEvictableIdleTimeMillis" value="360000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="logAbandoned" value="false" />
+	</bean>
+</beans>
