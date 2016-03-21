@@ -61,4 +61,4 @@ create table if not exists orders
    primary key (orders_id)
 )ENGINE=InnoDB;
 
-
+select * from user;

@@ -9,13 +9,13 @@
 			jdbcType="VARCHAR" />
 		<result column="user_type" property="userType" jdbcType="BIT" />
 	</resultMap>
-	<select id="selectUser" resultMap="userResultMap" parameterType="user">
+	<select id="select" resultMap="userResultMap" parameterType="user">
 		select * from user
 		<where>
 			<if test="user.name!=null">user_name = #{user.name}</if>
 		</where>
 	</select>
-	<insert id="insertUser" parameterType="user" >
+	<insert id="insert" parameterType="user" >
 		insert into user(user_name,user_password,user_type)
 		values(#{userName},#{userPassword},#{userType})
 	</insert>

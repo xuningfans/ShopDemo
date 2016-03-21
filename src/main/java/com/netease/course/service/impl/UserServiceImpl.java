@@ -20,8 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int insert(User entity) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return userDao.insert(entity);
 	}
 
 	@Override
@@ -41,5 +40,5 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }
