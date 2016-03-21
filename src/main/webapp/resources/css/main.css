@@ -1,0 +1,11 @@
+.head{
+	position:absolute;
+	right: 5px;
+	bottom: 5px;
+}
+.error{
+	color:red;
+}
+.text{
+	text-align: center;
+}

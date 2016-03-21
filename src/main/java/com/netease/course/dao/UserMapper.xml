@@ -10,13 +10,19 @@
 		<result column="user_type" property="userType" jdbcType="BIT" />
 	</resultMap>
 	<select id="select" resultMap="userResultMap" parameterType="user">
-		select * from user
+		select user_id,user_name,user_password,user_type from user
 		<where>
-			<if test="user.name!=null">user_name = #{user.name}</if>
+			<if test="userName != null and !&quot;&quot;.equals(userName.trim())">
+				and user_name=#{userName}
+			</if>
+			<if test="userPassword != null and !&quot;&quot;.equals(userPassword.trim())">
+				and user_password = #{userPassword}
+			</if>
 		</where>
 	</select>
-	<insert id="insert" parameterType="user" >
-		insert into user(user_name,user_password,user_type)
+	<insert id="insert" parameterType="user">
+		insert into
+		user(user_name,user_password,user_type)
 		values(#{userName},#{userPassword},#{userType})
 	</insert>
 </mapper>

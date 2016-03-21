@@ -1,6 +1,5 @@
 package com.netease.course.service.impl;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +11,13 @@ import com.netease.course.service.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserDao userDao;
-	
+
 	@Override
-	public User login(User user){
-		return userDao.select(user);
+	public User login(User user) {
+		if (user.getUserName()!=null && user.getUserPassword()!=null) {
+			return userDao.select(user);
+		}
+		return null;
 	}
 
 	@Override
@@ -40,5 +42,5 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

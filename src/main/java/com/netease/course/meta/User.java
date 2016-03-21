@@ -1,43 +1,54 @@
 package com.netease.course.meta;
 
-public class User {
-    private Integer userId;
+import java.io.Serializable;
 
-    private String userName;
+public class User implements Serializable {
+	private static final long serialVersionUID = 8461355401694402895L;
 
-    private String userPassword;
+	private Integer userId;
 
-    private Boolean userType;
+	private String userName;
 
-    public Integer getUserId() {
-        return userId;
-    }
+	private String userPassword;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	private Boolean userType;
 
-    public String getUserName() {
-        return userName;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public String getUserPassword() {
-        return userPassword;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public Boolean getUserType() {
-        return userType;
-    }
+	public String getUserPassword() {
+		return userPassword;
+	}
 
-    public void setUserType(Boolean userType) {
-        this.userType = userType;
-    }
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public Boolean getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Boolean userType) {
+		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword + ", userType="
+				+ userType + "]";
+	}
+
 }

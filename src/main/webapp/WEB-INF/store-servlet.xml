@@ -16,10 +16,13 @@
 	<!-- RequestMapping和ExceptionHandler支持 -->
 	<mvc:annotation-driven />
 
+	<!-- 静态资源处理， css， js， imgs -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
 	<!-- Freemarker配置 -->
 	<bean id="freemarkerConfig"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath" value="/WEB-INF/freemarker" />
+		<property name="templateLoaderPath" value="/template" />
 	</bean>
 
 	<!-- 内容协商视图解析器 -->
@@ -43,4 +46,13 @@
 			</list>
 		</property>
 	</bean>
+	
+	
+	<!--200*1024*1024即200M resolveLazily属性启用是为了推迟文件解析，以便捕获文件大小异常 -->
+	<!-- <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="209715200" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="resolveLazily" value="true" />
+	</bean> -->
 </beans>
