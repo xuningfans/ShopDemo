@@ -1,5 +1,6 @@
 package com.netease.course.dao;
 
+import java.util.List;
 
 public interface BaseDao<T> {
 	//添加单个对象
@@ -13,4 +14,7 @@ public interface BaseDao<T> {
 	
 	//查询单个对象
 	public T select(T entity);
+	
+	//查询多个对象
+	public List<T> select(String...name);
 }

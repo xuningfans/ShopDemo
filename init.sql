@@ -15,7 +15,7 @@ create table if not exists user
    /* 用户密码,自动增长 */
    user_password            varchar(40),
    /* 用户类型,自动增长 */
-   user_type                boolean,
+   user_type                tinyint,
    primary key (user_id)
 )ENGINE=InnoDB;
 

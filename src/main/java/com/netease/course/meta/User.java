@@ -11,7 +11,7 @@ public class User implements Serializable {
 
 	private String userPassword;
 
-	private Boolean userType;
+	private Integer userType;
 
 	public Integer getUserId() {
 		return userId;
@@ -37,11 +37,11 @@ public class User implements Serializable {
 		this.userPassword = userPassword;
 	}
 
-	public Boolean getUserType() {
+	public Integer getUserType() {
 		return userType;
 	}
 
-	public void setUserType(Boolean userType) {
+	public void setUserType(Integer userType) {
 		this.userType = userType;
 	}
 
