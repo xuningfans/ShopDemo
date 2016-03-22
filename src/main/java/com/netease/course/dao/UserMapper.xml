@@ -9,20 +9,96 @@
 			jdbcType="VARCHAR" />
 		<result column="user_type" property="userType" jdbcType="TINYINT" />
 	</resultMap>
-	<select id="select" resultMap="userResultMap" parameterType="user">
-		select user_id,user_name,user_password,user_type from user
-		<where>
-			<if test="userName != null and !&quot;&quot;.equals(userName.trim())">
-				and user_name=#{userName}
-			</if>
-			<if test="userPassword != null and !&quot;&quot;.equals(userPassword.trim())">
-				and user_password = #{userPassword}
-			</if>
-		</where>
-	</select>
+
+	<!-- 插入单条数据 -->
 	<insert id="insert" parameterType="user">
 		insert into
 		user(user_name,user_password,user_type)
 		values(#{userName},#{userPassword},#{userType})
 	</insert>
+
+	<!-- 插入多条数据 -->
+	<insert id="insertList">
+		insert into
+		user(user_name,user_password,user_type)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.userName},#{item.userPassword},#{item.userType})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除单条数据，使用此方法需在Service层校验数据 -->
+	<delete id="delete" parameterType="user">
+		delete from user
+		<where>
+			<if test="userId != null">
+				and user_id=#{userId}
+			</if>
+			<if test="userName != null and !&quot;&quot;.equals(userName.trim())">
+				and user_name=#{userName}
+			</if>
+		</where>
+	</delete>
+	<!-- 通过主键批量删除 -->
+	<delete id="deleteListById">
+		delete from user
+		where user_id in
+		<foreach collection="array" open="(" close=")" separator="," item="id">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!-- 通过用户名批量删除 -->
+	<delete id="deleteListByName">
+		delete from user
+		where user_name in
+		<foreach collection="array" open="(" close=")" separator="," item="userName">
+			#{userName}
+		</foreach>
+	</delete>
+
+	<!-- 更新单条数据 -->
+	<update id="update" parameterType="user">
+		update user set
+		user_name=#{userName},
+		user_password=#{userPassword},
+		user_type=#{userType}
+		where user_id=#{userId}
+	</update>
+
+	<!-- 查询单条用户数据 -->
+	<select id="select" resultMap="userResultMap" parameterType="user">
+		select user_id,user_name,user_password,user_type from user
+		<where>
+			<if test="userId != null">
+				and user_id=#{userId}
+			</if>
+			<if test="userName != null and !&quot;&quot;.equals(userName.trim())">
+				and user_name=#{userName}
+			</if>
+			<if test="userType != null">
+				and user_type = #{userType}
+			</if>
+			<if
+				test="userPassword != null and !&quot;&quot;.equals(userPassword.trim())">
+				and user_password = #{userPassword}
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据条件查询多条数据 -->
+	<select id="selectList" parameterType="user" resultMap="userResultMap">
+		select user_id,user_name,user_password,user_type from user
+		<where>
+			<if test="userName != null and !&quot;&quot;.equals(userName.trim())">
+				and user_name like '%${userName}%'
+			</if>
+			<if test="userType != null">
+				and user_type = #{userType}
+			</if>
+		</where>
+		<!-- limit #{start},#{rows} -->
+	</select>
+
 </mapper>

@@ -3,7 +3,6 @@ package com.netease.course.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -37,16 +36,16 @@ public class UserController extends BaseController {
 	}
 
 	@RequestMapping(value={"/login"}, method=RequestMethod.POST)
-	public String login(@ModelAttribute User user, Model model) {
-		System.out.println(user);
-		User loginUser = userService.login(user);
+	public String login(String userName, String userPassword, Model model) {
+		System.out.println(userName);
+		User loginUser = userService.login(userName, userPassword);
 		System.out.println(loginUser);
 		if (loginUser != null) {
 			model.addAttribute("loginUser", loginUser);
 			return "font/mainhead";
 		}
 		model.addAttribute("message", "用户或密码错误！");
-		model.addAttribute("userName", user.getUserName());
+		model.addAttribute("userName", userName);
 		return "font/loginhead";
 	}
 	

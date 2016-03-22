@@ -45,7 +45,8 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
 		// 打开属性访问权限
 		baseField.setAccessible(true);
-		// 通过Spring容器拿到UserDao并装配给BaseDao
+		
+		// 拿到UserDao并装配给BaseDao
 		// 例如：UserService对象中，BaseDao所指向的实际对象为UserDao对象，
 		// 实际对象已被Spring实例化于Ioc容器中
 		// targetField.get(this) 获取当前对象（this）的targetField的值
@@ -56,10 +57,25 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	public int insert(T entity) throws Exception {
 		return baseDao.insert(entity);
 	}
+	
+	@Override
+	public int insertList(List<T> entity) throws Exception {
+		return baseDao.insertList(entity);
+	}
 
 	@Override
 	public int delete(T entity) throws Exception {
 		return baseDao.delete(entity);
+	}
+	
+	@Override
+	public int deleteListById(String[] ids) throws Exception {
+		return baseDao.deleteListById(ids);
+	}
+	
+	@Override
+	public int deleteListByName(String[] userNames) throws Exception {
+		return baseDao.deleteListByName(userNames);
 	}
 
 	@Override
@@ -73,9 +89,13 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public List<T> selectList(String... name) {
-		return (List<T>) baseDao.select(name);
+	public List<T> selectList(T entity) {
+		return (List<T>) baseDao.selectList(entity);
 	}
+
+
+
+	
 
 	// @Override
 	// public Page<T> selectPage(Page<T> page) {
