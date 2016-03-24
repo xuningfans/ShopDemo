@@ -1,6 +1,5 @@
 package com.netease.course.meta;
 
-import java.math.BigDecimal;
 
 public class Product {
     private Integer productId;
@@ -11,11 +10,11 @@ public class Product {
 
     private String productDetail;
 
-    private BigDecimal productPrice;
+    private Double productPrice;
 
     private String productSummary;
 
-    private Boolean productSell;
+    private Boolean isSell;
 
     public Integer getProductId() {
         return productId;
@@ -49,11 +48,11 @@ public class Product {
         this.productDetail = productDetail;
     }
 
-    public BigDecimal getProductPrice() {
+    public Double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public void setProductPrice(Double productPrice) {
         this.productPrice = productPrice;
     }
 
@@ -65,11 +64,20 @@ public class Product {
         this.productSummary = productSummary;
     }
 
-    public Boolean getProductSell() {
-        return productSell;
+    public Boolean getIsSell() {
+        return isSell;
     }
 
-    public void setProductSell(Boolean productSell) {
-        this.productSell = productSell;
+    public void setIsSell(Boolean IsSell) {
+        this.isSell = IsSell;
     }
+
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productTitle=" + productTitle + ", productImage=" + productImage
+				+ ", productDetail=" + productDetail + ", productPrice=" + productPrice + ", productSummary="
+				+ productSummary + ", productSell=" + isSell + "]";
+	}
+    
+    
 }

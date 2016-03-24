@@ -38,7 +38,7 @@ create table if not exists product
    /* 商品摘要  */
    product_summary          varchar(255),
    /* 商品状态  */
-   product_sell             boolean,
+   is_sell             boolean,
    primary key (product_id)
 )ENGINE=InnoDB;
 

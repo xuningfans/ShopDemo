@@ -2,13 +2,17 @@ package com.netease.course.meta;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class User implements Serializable {
 	private static final long serialVersionUID = 8461355401694402895L;
-
+	
 	private Integer userId;
-
+	
+	@NotEmpty(message="请登录！")
 	private String userName;
 
+	@NotEmpty(message="请登录！")
 	private String userPassword;
 
 	private Integer userType;

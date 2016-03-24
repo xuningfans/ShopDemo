@@ -1,11 +1,60 @@
-.head{
-	position:absolute;
+.head {
+	position: absolute;
 	right: 5px;
 	bottom: 5px;
 }
-.error{
-	color:red;
+
+.error {
+	color: red;
 }
-.text{
+
+.text {
 	text-align: center;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+#container {
+	width: 980px;
+	height: 300px;
+	text-align: left;
+}
+
+#main {
+	margin-top: 20px;
+}
+
+#head {
+	text-align: center;
+}
+
+#categories {
+	border: solid 1px blue;
+	width: 250px;
+	padding-left: 20px;
+	height: 400px;
+	line-height: 40px;
+	float: left;
+}
+
+#goods {
+	float: left;
+	margin-left: 40px;
+}
+
+#image {
+	float: left;
+}
+
+#info {
+	float: left;
+}
+
+#product {
+	float: left;
+	width: 230px;
 }

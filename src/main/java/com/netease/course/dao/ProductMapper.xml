@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.netease.course.dao.ProductDao" >
-  <resultMap id="BaseResultMap" type="product" >
-    <id column="product_id" property="productId" jdbcType="INTEGER" />
-    <result column="product_title" property="productTitle" jdbcType="VARCHAR" />
-    <result column="product_image" property="productImage" jdbcType="VARCHAR" />
-    <result column="product_detail" property="productDetail" jdbcType="VARCHAR" />
-    <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
-    <result column="product_summary" property="productSummary" jdbcType="VARCHAR" />
-    <result column="product_sell" property="productSell" jdbcType="BIT" />
-  </resultMap>
+<mapper namespace="com.netease.course.dao.ProductDao">
+	<resultMap id="productResultMap" type="product">
+		<id column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="product_title" property="productTitle"
+			jdbcType="VARCHAR" />
+		<result column="product_image" property="productImage"
+			jdbcType="VARCHAR" />
+		<result column="product_detail" property="productDetail"
+			jdbcType="VARCHAR" />
+		<result column="product_price" property="productPrice"
+			jdbcType="DOUBLE" />
+		<result column="product_summary" property="productSummary"
+			jdbcType="VARCHAR" />
+		<result column="is_sell" property="isSell" jdbcType="BIT" />
+	</resultMap>
+
+	<insert id="insert" parameterType="product" useGeneratedKeys="true">
+		insert into
+		product(product_title,product_image,product_detail,product_price,product_summary,is_sell)
+		values(#{productTitle},#{productImage},#{productDetail},#{productPrice},#{productSummary},#{isSell})
+	</insert>
+
+	<delete id="delete" parameterType="product">
+		delete from product where
+		product_id=#{productId}
+	</delete>
+
+	<update id="update" parameterType="product">
+		update product set
+		product_title=#{productTitle},
+		product_image=#{productImage},
+		product_detail=#{productDetail},
+		product_price=#{productPrice},
+		product_summary=#{productSummary},
+		is_sell=#{isSell}
+		where
+		product_id=#{productId}
+	</update>
+
+	<select id="selectList" resultMap="productResultMap" parameterType="product">
+		select
+		product_id,product_title,product_image,product_detail,product_price,product_summary,is_sell
+		from product
+		<where>
+			<if test="product_id != null">
+				and product_id = #{productId}
+			</if>
+		</where>
+	</select>
+
 </mapper>

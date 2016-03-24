@@ -14,7 +14,7 @@ import com.netease.course.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:*.xml")
-public class Service {
+public class TUserService {
 	@Autowired
 	UserService userService;
 

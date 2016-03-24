@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring />
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
@@ -7,7 +8,12 @@
 </head>
 <body>
 <#include "/inc/title.ftl">
-<form action="/livestore/login" method="post"  class="head">
+<form action="<@spring.url '/addproduct'/>" method="post"  class="head">
+	<#if user??>  
+	    <@spring.bind "user.userName" />
+	    <@spring.bind "user.userPassword" />
+	    <@spring.showErrors "<br>"/>  
+	</#if>   
 	<#if message?exists><span class="error">${message}&nbsp;</span></#if>
 	UserName: <input type="text" name="userName" <#if userName?exists>value="${userName}"</#if>/>
 	Password: <input type="password" name="userPassword" />

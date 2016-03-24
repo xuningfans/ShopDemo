@@ -9,13 +9,8 @@ import com.netease.course.service.UserService;
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
 	@Override
-	public User login(String userName, String userPassword) {
-		if (userName != null && userPassword != null) {
-			User user = new User();
-			user.setUserName(userName);
-			user.setUserPassword(userPassword);
-			return select(user);
-		}
-		return null;
+	public User login(User user) {
+		return select(user);
 	}
+
 }
