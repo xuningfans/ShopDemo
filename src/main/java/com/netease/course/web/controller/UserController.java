@@ -1,9 +1,9 @@
 package com.netease.course.web.controller;
 
-import static com.netease.course.web.utils.WebUtil.cookie2Bean;
-import static com.netease.course.web.utils.WebUtil.validData;
+import static com.netease.course.web.utils.WebUtil.*;
 
-import javax.servlet.http.Cookie;
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.netease.course.meta.User;
 import com.netease.course.service.UserService;
 
@@ -29,25 +30,26 @@ public class UserController extends BaseController {
 	private UserService userService;
 
 	@RequestMapping(value = { "/login" })
-	public String login(@ModelAttribute @Validated User user, BindingResult br, HttpSession session,
+	public String login(@ModelAttribute @Validated User formUser, BindingResult br, HttpSession session,
 			HttpServletResponse response, HttpServletRequest request, Model model) {
 
+		// 从Session中验证用户名密码
 		User loginUser = null;
 		loginUser = (User) session.getAttribute("loginUser");
 		if (loginUser != null) {
 			return "font/mainhead";
 		}
+
+		// 从Cookie中验证用户名密码
 		User cookieUser = null;
-		cookieUser = cookie2Bean(request.getCookies(), User.class);
+		cookieUser = jsonCookie2Bean(request.getCookies(), User.class);
 		if (cookieUser != null) {
 			if (validData(cookieUser.getUserName()) && validData(cookieUser.getUserPassword())) {
 
-				if (cookieUser != null) {
-					loginUser = userService.login(cookieUser);
-					if (loginUser != null) {
-						model.addAttribute("loginUser", loginUser);
-						return "font/mainhead";
-					}
+				loginUser = userService.login(cookieUser);
+				if (loginUser != null) {
+					model.addAttribute("loginUser", loginUser);
+					return "font/mainhead";
 				}
 			}
 		}
@@ -55,57 +57,44 @@ public class UserController extends BaseController {
 			return "font/loginhead";
 		}
 
-		// if (validData(user.getUserName()) &&
-		// validData(user.getUserPassword())) {
-		loginUser = userService.login(user);
+		// 验证表单用户名密码
+		loginUser = userService.login(formUser);
 		if (loginUser != null) {
-			setCookie(response, loginUser);
+			try {
+				setCookie(response, loginUser);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			model.addAttribute("loginUser", loginUser);
 			return "font/mainhead";
 		}
 		model.addAttribute("message", "用户或密码错误！");
-		model.addAttribute("userName", user.getUserName());
+		model.addAttribute("userName", formUser.getUserName());
 		return "font/loginhead";
 	}
 
-	/**
-	 * 为客户端设置Cookie
-	 * 
-	 * @param response
-	 * @param user
-	 */
-	private void setCookie(HttpServletResponse response, User user) {
-
-		// 新建userName，userPassword两个Cookie
-		Cookie usCookie = new Cookie("userName", user.getUserName());
-
-		// 此处密码Cookie需加密，演示案例在此不加密
-		Cookie psCookie = new Cookie("userPassword", user.getUserPassword());
-
-		// 设置Cookie有效期60秒
-		usCookie.setMaxAge(60);
-		psCookie.setMaxAge(60);
-
-		// 将设置好的Cookie添加至response
-		response.addCookie(usCookie);
-		response.addCookie(psCookie);
-
-	}
+	
 
 	@RequestMapping(value = { "logout" }, method = RequestMethod.GET)
-	public String logout() {
-		System.out.println("logout");
+	public String logout(HttpSession session) {
+		if (session != null) {
+			session.invalidate();
+		}
 		return "redirect:login";
 	}
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-	public String root( Model model ) {
+	public String root(Model model) {
 		return "index";
 	}
 
 	@RequestMapping(value = { "/menu" }, method = RequestMethod.GET)
 	public String menu() {
-		return "font/menu";
+		return "menu";
 	}
 
 	/*

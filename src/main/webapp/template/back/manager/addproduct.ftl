@@ -10,7 +10,7 @@
     
     <br/><br/>
     <form action="<@spring.url '/addproduct'/>" method="post" enctype="multipart/form-data">
-    	<table width="500px">
+    	<table width="500px" border=1>
     	<tr>
     		<td>名称</td>
     		<td><input type="text" name="productTitle" style="width: 200px"></td>

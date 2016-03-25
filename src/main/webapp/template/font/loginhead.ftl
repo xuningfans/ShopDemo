@@ -8,7 +8,7 @@
 </head>
 <body>
 <#include "/inc/title.ftl">
-<form action="<@spring.url '/addproduct'/>" method="post"  class="head">
+<form action="<@spring.url '/login'/>" method="post"  class="head">
 	<#if user??>  
 	    <@spring.bind "user.userName" />
 	    <@spring.bind "user.userPassword" />
