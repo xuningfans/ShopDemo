@@ -57,7 +57,7 @@ create table if not exists orders
    /* 商品价格  */
    orders_price             decimal(8,2),
    /* 订单状态  */
-   isbuy                    boolean,
+   is_buy                    boolean,
    primary key (orders_id)
 )ENGINE=InnoDB;
 

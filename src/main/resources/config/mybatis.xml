@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 使用数据源 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 自动扫描mybatis配置文件 -->
+		<property name="mapperLocations" 
+			value="classpath:com/netease/course/dao/*.xml"/>
+			<!--通过typeAliasesPackage, 可以直接指定
+				package的名字， mybatis会自动扫描你指定
+				包下面的javabean,并且默认设置一个别名，默
+				认的名字为： javabean 的首字母不限大小写的
+				非限定类名来作为它的别名。 -->
+		<property name="typeAliasesPackage" value="com.netease.course.meta" />
+	</bean>
+	
+	<!--
+		配置 转换器，对于在basePackage设置的包（包括子包）下的接口类，
+		如果接口类的全类名在Mapper.xml文件中和定义过命名空间一致，将
+		被转换成spring的BEAN，在调用 的地方通过@Autowired方式将
+		可以注入接口实例 
+	-->
+ 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.netease.course.dao" />
+	</bean>
+	
+	<!-- 代替上面配置 -->
+	<!-- <mybatis:scan base-package="com.netease.course.dao"/> -->
+</beans>

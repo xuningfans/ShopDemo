@@ -1,55 +1,60 @@
 package com.netease.course.meta;
 
-import java.math.BigDecimal;
-
 public class Orders {
-    private Integer ordersId;
 
-    private Integer userId;
+	private Integer ordersId;
 
-    private Integer productId;
+	private Integer userId;
 
-    private BigDecimal ordersPrice;
+	private Integer productId;
 
-    private Boolean isbuy;
+	private Double ordersPrice;
 
-    public Integer getOrdersId() {
-        return ordersId;
-    }
+	private Boolean isbuy;
 
-    public void setOrdersId(Integer ordersId) {
-        this.ordersId = ordersId;
-    }
+	public Integer getOrdersId() {
+		return ordersId;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setOrdersId(Integer ordersId) {
+		this.ordersId = ordersId;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public Integer getProductId() {
-        return productId;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
+	public Integer getProductId() {
+		return productId;
+	}
 
-    public BigDecimal getOrdersPrice() {
-        return ordersPrice;
-    }
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
 
-    public void setOrdersPrice(BigDecimal ordersPrice) {
-        this.ordersPrice = ordersPrice;
-    }
+	public Double getOrdersPrice() {
+		return ordersPrice;
+	}
 
-    public Boolean getIsbuy() {
-        return isbuy;
-    }
+	public void setOrdersPrice(Double ordersPrice) {
+		this.ordersPrice = ordersPrice;
+	}
 
-    public void setIsbuy(Boolean isbuy) {
-        this.isbuy = isbuy;
-    }
+	public Boolean getIsbuy() {
+		return isbuy;
+	}
+
+	public void setIsbuy(Boolean isbuy) {
+		this.isbuy = isbuy;
+	}
+
+	@Override
+	public String toString() {
+		return "Orders [ordersId=" + ordersId + ", userId=" + userId + ", productId=" + productId + ", ordersPrice="
+				+ ordersPrice + ", isbuy=" + isbuy + "]";
+	}
 }

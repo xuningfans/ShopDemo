@@ -1,0 +1,23 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+#container {
+	width: auto;
+	height: 300px;
+	text-align: left;
+	margin-left: 40%;
+	margin-top: 20px;
+}
+
+#image {
+	float: left;
+}
+
+#info {
+	float: left;
+	margin-left: 20px;
+}
+

@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.netease.course.dao.BaseDao;
+import com.netease.course.dao.OrdersDao;
 import com.netease.course.dao.ProductDao;
 import com.netease.course.dao.UserDao;
 import com.netease.course.service.BaseService;
@@ -20,6 +21,9 @@ public class BaseServiceImpl<T> implements BaseService<T> {
 
 	@Autowired
 	protected ProductDao productDao;
+	
+	@Autowired
+	protected OrdersDao ordersDao;
 
 	protected BaseDao<T> baseDao;
 

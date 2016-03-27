@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- 读取外部配置文件 -->
+	<bean
+		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- JDBC配置文件 -->
+				<value>classpath:properties/db.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 载入外部数据库配置文件 -->
+	<!-- <context:property-placeholder location="classpath:db.properties" /> -->
+</beans>
