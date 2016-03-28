@@ -11,7 +11,9 @@
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!-- 自动扫描Controller -->
-	<context:component-scan base-package="com.netease.course.web.controller" />
+	<context:component-scan base-package="com.netease" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	
 	<!-- RequestMapping和ExceptionHandler支持 -->
 	<mvc:annotation-driven />

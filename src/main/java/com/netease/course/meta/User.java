@@ -1,7 +1,6 @@
 package com.netease.course.meta;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,16 +16,6 @@ public class User implements Serializable {
 	private String userPassword;
 
 	private Integer userType;
-
-	private List<Orders> orderList;
-
-	public List<Orders> getOrderList() {
-		return orderList;
-	}
-
-	public void setOrderList(List<Orders> orderList) {
-		this.orderList = orderList;
-	}
 
 	public Integer getUserId() {
 		return userId;

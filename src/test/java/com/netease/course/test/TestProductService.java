@@ -13,7 +13,7 @@ import com.netease.course.service.ProductService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:*.xml")
-public class TProductService {
+public class TestProductService {
 
 	@Autowired
 	private ProductService productService;

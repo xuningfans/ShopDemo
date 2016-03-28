@@ -13,8 +13,8 @@ import com.netease.course.meta.User;
 import com.netease.course.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:*.xml")
-public class TUserService {
+@ContextConfiguration("classpath:application-context.xml")
+public class TestUserService {
 	@Autowired
 	UserService userService;
 
@@ -23,7 +23,7 @@ public class TUserService {
 		User u = new User();
 		u.setUserName("aaa");
 		u.setUserPassword("123");
-		u.setUserType(1);
+		u.setUserType(0);
 		userService.insert(u);
 	}
 

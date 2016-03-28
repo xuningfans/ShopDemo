@@ -1,5 +1,6 @@
 package com.netease.course.web.utils;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,24 +11,66 @@ import java.net.URLEncoder;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.netease.course.meta.User;
+import com.netease.course.service.UserService;
 
 /**
  * @author 公猴脖子男
  */
+@Component
 public class WebUtil {
+	
+	@Autowired
+	private static UserService userService;
 
 	/**
 	 * JSON转换器
 	 */
 	public static final ObjectMapper OBJECTMAPPER = new ObjectMapper();
 	public static final ObjectWriter OBJECTWRITER = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
+	/**
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	public static User getUserByCookieAndSession(HttpSession session, HttpServletRequest request) {
+		// 从Session中验证用户名密码
+		User loginUser = null;
+		loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser != null) {
+			return loginUser;
+		}
+
+		// 从Cookie中验证用户名密码
+		User cookieUser = null;
+		cookieUser = jsonCookie2Bean(request.getCookies(), User.class);
+		if (cookieUser != null) {
+			if (validData(cookieUser.getUserName()) && validData(cookieUser.getUserPassword())) {
+
+				loginUser = userService.login(cookieUser);
+				if (loginUser != null) {
+					session.setAttribute("loginUser", loginUser);
+
+					return loginUser;
+				}
+			}
+		}
+		return loginUser;
+	}
 
 	/**
 	 * 为客户端设置Cookie
@@ -37,7 +80,7 @@ public class WebUtil {
 	 * @throws JsonProcessingException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static <T> void setCookie(HttpServletResponse response, T obj)
+	public static <T> void setCookie(HttpServletResponse response, T obj, Integer age)
 			throws JsonProcessingException, UnsupportedEncodingException {
 
 		String cookieName = "json" + obj.getClass().getSimpleName();
@@ -47,8 +90,8 @@ public class WebUtil {
 		// 将转换后的JSON字符串URL编码后放进新建的Cookie
 		Cookie cookie = new Cookie(cookieName, URLEncoder.encode(json, "UTF-8"));
 
-		// 设置Cookie有效期60秒
-		cookie.setMaxAge(60);
+		// 设置Cookie有效期
+		cookie.setMaxAge(age);
 
 		// 将设置好的Cookie添加至response
 		response.addCookie(cookie);
@@ -63,25 +106,32 @@ public class WebUtil {
 	 */
 	public static <T> T jsonCookie2Bean(Cookie[] cookies, Class<T> clazz) {
 		if (cookies != null) {
-			try {
-				String cookieName = "json" + clazz.getSimpleName();
-				for (Cookie cookie : cookies) {
-					if (cookieName.equals(cookie.getName())) {
-						// 获取Cookie
-						String jsonUser = URLDecoder.decode(cookie.getValue(), "UTF-8");
 
-						// 将获取的Cookie字符串转换成对象
-						T obj = OBJECTMAPPER.readValue(jsonUser, clazz);
-						return obj;
-					}
+			String cookieName = "json" + clazz.getSimpleName();
+			for (Cookie cookie : cookies) {
+				if (cookieName.equals(cookie.getName())) {
+					return jsonUser2Bean(clazz, cookie.getValue());
 				}
-			} catch (JsonParseException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
+
+		}
+		return null;
+	}
+
+	public static <T> T jsonUser2Bean(Class<T> clazz, String cookie) {
+		try {
+			// 获取Cookie
+			String jsonUser = URLDecoder.decode(cookie, "UTF-8");
+
+			// 将获取的Cookie字符串转换成对象
+			T obj = OBJECTMAPPER.readValue(jsonUser, clazz);
+			return obj;
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

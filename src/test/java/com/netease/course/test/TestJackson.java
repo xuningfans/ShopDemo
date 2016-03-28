@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.netease.course.meta.User;
 
-public class TJackson {
+public class TestJackson {
 
 	@Test
 	public void test1() {
@@ -34,7 +34,6 @@ public class TJackson {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

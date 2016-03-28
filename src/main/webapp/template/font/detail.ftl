@@ -5,7 +5,7 @@
 <title>商品首页</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="<@spring.url'/resources/css/detail.css'/>" />
-<script type="text/javascript" src="<@spring.url '/resources/js/main.js'/>"></script>
+<script type="text/javascript" src="<@spring.url'/resources/js/main.js'/>"></script>
 </head>
 <body>
 	<div id="container">
@@ -26,10 +26,16 @@
 				<#else>
 				<li>未出售</li>
 				</#if>
-				<li>
-					<a href="javascript:void(0)" onclick=del("<@spring.url '/deleteproduct/${product.productId }'/>")>删除</a>
-					<a href="<@spring.url '/editproduct/${product.productId }'/>">修改</a>
-				</li>
+				<#if user?exists && user.userType==1>
+					<li>
+						<a href="javascript:void(0)" onclick=del("<@spring.url '/deleteproduct/${product.productId }'/>")>删除</a>
+						<a href="<@spring.url '/editproduct/${product.productId }'/>">修改</a>
+					</li>
+				<#else>
+					<li>
+						<a href="<@spring.url '/buyproduct/${product.productId }'/>">购买</a>
+					</li>
+				</#if>
 			</div>
 
 		</div>

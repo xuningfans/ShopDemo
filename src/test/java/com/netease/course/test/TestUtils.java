@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.netease.course.meta.User;
 import com.netease.course.web.utils.WebUtil;
 
-public class Utils {
+public class TestUtils {
 
 	@Test
 	public void test1(){

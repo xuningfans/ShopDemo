@@ -4,6 +4,8 @@
   <head>
     <title>添加商品</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="<@spring.url '/resources/css/main.css'/>" />
+	<script type="text/javascript" src="<@spring.url '/resources/js/main.js'/>"></script>
   </head>
   
   <body>

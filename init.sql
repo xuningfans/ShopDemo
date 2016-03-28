@@ -10,11 +10,11 @@ create table if not exists user
 (
    /* 用户编号,自动增长 */
    user_id                  int not null auto_increment,
-   /* 用户名称,自动增长 */
+   /* 用户名称 */
    user_name                varchar(40),
-   /* 用户密码,自动增长 */
+   /* 用户密码 */
    user_password            varchar(40),
-   /* 用户类型,自动增长 */
+   /* 用户类型  */
    user_type                tinyint,
    primary key (user_id)
 )ENGINE=InnoDB;
@@ -57,7 +57,7 @@ create table if not exists orders
    /* 商品价格  */
    orders_price             decimal(8,2),
    /* 订单状态  */
-   is_buy                    boolean,
+   state                    tinyint,
    primary key (orders_id)
 )ENGINE=InnoDB;
 

@@ -1,11 +1,14 @@
 package com.netease.course.web.controller;
 
+import static com.netease.course.web.utils.WebUtil.getUserByCookieAndSession;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.netease.course.meta.Product;
+import com.netease.course.meta.User;
 import com.netease.course.service.ProductService;
 import com.netease.course.web.utils.MyFileUtils;
 
@@ -51,7 +54,6 @@ public class ProductController extends BaseController {
 	 * @throws UnsupportedEncodingException
 	 ********************************************/
 	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
-	@ResponseBody
 	public String addPruduct(@ModelAttribute Product product, HttpServletRequest request)
 			throws UnsupportedEncodingException {
 
@@ -75,14 +77,23 @@ public class ProductController extends BaseController {
 		return "redirect:/main";
 	}
 	
-	
 	/*************************************************
 	 * 产品删除请求
 	 * @return
 	 *************************************************/
 	@RequestMapping(value = "/deleteproduct/{productId}", method = RequestMethod.GET)
 	public String deletePruduct(@PathVariable String productId) {
-		System.out.println(productId);
+		try {
+			String rootPath = application.getRealPath("/");
+			Product product = productService.select(productId);
+			File file = new File( rootPath + product.getProductImage() );
+			if( file.exists() ){
+				file.delete();
+			}
+			productService.delete(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "redirect:/main";
 	}
 	
@@ -122,8 +133,8 @@ public class ProductController extends BaseController {
 			try {
 				System.out.println(product);
 				String productPath = productService.select(product).getProductImage();
-				File file = new File(rootPath + productPath);
-				System.out.println(rootPath + productPath);
+				File file = new File(rootPath + productPath.substring(1));
+				System.out.println(rootPath + productPath.substring(1));
 				if(file.exists()){
 					file.delete();
 				}
@@ -146,10 +157,13 @@ public class ProductController extends BaseController {
 	 * @return
 	 *************************************************/
 	@RequestMapping(value = { "/detail/{productId}" }, method = RequestMethod.GET)
-	public String edit(@PathVariable @Param("productId") String productId, Model model) {
+	public String edit(@PathVariable @Param("productId") String productId,HttpSession session, HttpServletRequest request, Model model) {
 		Product product = productService.select(productId);
 		model.addAttribute("product", product);
-
+		User loginUser = getUserByCookieAndSession(session, request);
+		if (loginUser != null) {
+			model.addAttribute("user", loginUser);
+		}
 		return "font/detail";
 	}
 
@@ -160,13 +174,13 @@ public class ProductController extends BaseController {
 	 * @return
 	 *************************************************/
 	@RequestMapping(value = { "/main" }, method = RequestMethod.GET)
-	public String main(Model model) {
+	public String main(HttpSession session, HttpServletRequest request, Model model) {
 		List<Product> products = productService.selectList(null);
-		for (Product product : products) {
-			System.out.println(product);
-		}
 		model.addAttribute("products", products);
-
+		User loginUser = getUserByCookieAndSession(session, request);
+		if (loginUser != null) {
+			model.addAttribute("user", loginUser);
+		}
 		return "font/main";
 	}
 

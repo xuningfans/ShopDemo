@@ -1,16 +1,17 @@
 package com.netease.course.meta;
 
+
 public class Orders {
 
 	private Integer ordersId;
 
-	private Integer userId;
-
-	private Integer productId;
+	private User user;
 
 	private Double ordersPrice;
+	
+	private Product product;
 
-	private Boolean isbuy;
+	private OrderEnum state;
 
 	public Integer getOrdersId() {
 		return ordersId;
@@ -20,20 +21,20 @@ public class Orders {
 		this.ordersId = ordersId;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Integer getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public Double getOrdersPrice() {
@@ -44,17 +45,22 @@ public class Orders {
 		this.ordersPrice = ordersPrice;
 	}
 
-	public Boolean getIsbuy() {
-		return isbuy;
+	public OrderEnum getState() {
+		return state;
 	}
 
-	public void setIsbuy(Boolean isbuy) {
-		this.isbuy = isbuy;
+	public void setState(int i) {
+		this.state = OrderEnum.valueOf(i);
 	}
+	
+/*	public void setState(OrderEnum state) {
+		this.state = state;
+	}*/
 
 	@Override
 	public String toString() {
-		return "Orders [ordersId=" + ordersId + ", userId=" + userId + ", productId=" + productId + ", ordersPrice="
-				+ ordersPrice + ", isbuy=" + isbuy + "]";
+		return "Orders [ordersId=" + ordersId + ", userId=" + user + ", productId=" + product + ", ordersPrice="
+				+ ordersPrice + ", state=" + state.getState() + "]";
 	}
+
 }
