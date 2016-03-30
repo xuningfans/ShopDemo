@@ -1,6 +1,6 @@
 <#import "/spring.ftl" as spring />
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html>
 <head>
 <title>用户登录</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,7 +12,7 @@
 	}
 	function reload() {
 		window.top.left.location.href="menu";
-		window.top.right.location.href="main";
+		window.top.right.location.href="list";
 	}
 </script>
 </head>

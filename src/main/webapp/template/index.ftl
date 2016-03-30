@@ -1,6 +1,6 @@
 <#import "/spring.ftl" as spring />
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html>
 <head>
 <title>My Store</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

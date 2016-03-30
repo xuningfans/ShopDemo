@@ -1,6 +1,6 @@
 <#import "/spring.ftl" as spring />
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html>
 <head>
 <title>错误提示</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

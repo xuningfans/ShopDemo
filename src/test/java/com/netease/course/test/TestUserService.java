@@ -67,7 +67,7 @@ public class TestUserService {
 			userNames[i-4] = "aaa" + i;
 			System.out.println(userNames[i-4]);
 		}
-		userService.deleteListByName(userNames);
+		//userService.deleteListByName(userNames);
 	}
 	
 	@Test

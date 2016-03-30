@@ -8,7 +8,7 @@
 		<result column="orders_price" property="ordersPrice" jdbcType="DOUBLE" />
 		<result column="state" property="state" jdbcType="INTEGER" />
 		<association column="user_id" property="user" javaType="user">
-			<id column="user_id" property="userId" jdbcType="INTEGER" />
+			<id column="uid" property="userId" jdbcType="INTEGER" />
 			<result column="user_name" property="userName" jdbcType="VARCHAR" />
 			<result column="user_password" property="userPassword"
 				jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
 		</association>
 		<association column="product_id" property="product"
 			javaType="product">
-			<id column="product_id" property="productId" jdbcType="INTEGER" />
+			<id column="pid" property="productId" jdbcType="INTEGER" />
 			<result column="product_title" property="productTitle"
 				jdbcType="VARCHAR" />
 			<result column="product_image" property="productImage"
@@ -54,52 +54,51 @@
 		orders_id=#{ordersId}
 	</update>
 
-	<select id="select" parameterType="orders" resultMap="ordersResultMap">
+	<select id="selectAll" resultMap="ordersResultMap">
 		SELECT
 		orders.orders_id, 
-		orders.user_id AS ouid, 
-		orders.product_id AS opid,
+		orders.user_id, 
+		orders.product_id,
 		orders.orders_price, 
 		orders.state, 
-		product.product_id,
+		product.product_id AS pid,
 		product.product_title, 
 		product.product_image, 
 		product.product_detail,
 		product.product_price, 
 		product.product_summary, 
 		product.is_sell,
-		`user`.user_id, 
+		`user`.user_id AS uid, 
 		`user`.user_name, 
 		`user`.user_password,
 		`user`.user_type 
 		FROM orders 
 		LEFT JOIN product ON orders.product_id=product.product_id 
-		LEFT JOIN `user` ON user.user_id = orders.user_id 
-		WHERE orders_id = #{ordersId}
+		LEFT JOIN `user` ON orders.user_id = user.user_id
 	</select>
 	
 	<select id="selectOrders" parameterType="user" resultMap="ordersResultMap">
 		SELECT
 		orders.orders_id, 
-		orders.user_id AS ouid, 
-		orders.product_id AS opid,
+		orders.user_id, 
+		orders.product_id,
 		orders.orders_price, 
 		orders.state, 
-		product.product_id,
+		product.product_id AS pid,
 		product.product_title, 
 		product.product_image, 
 		product.product_detail,
 		product.product_price, 
 		product.product_summary, 
 		product.is_sell,
-		`user`.user_id, 
+		`user`.user_id AS uid, 
 		`user`.user_name, 
 		`user`.user_password,
 		`user`.user_type 
 		FROM orders 
 		LEFT JOIN product ON orders.product_id=product.product_id 
-		LEFT JOIN `user` ON user.user_id = orders.user_id 
-		<if test="userId != null">
+		LEFT JOIN `user` ON orders.user_id = user.user_id 
+		<if test="userId!=null">
 			WHERE orders.user_id = #{userId}
 		</if>
 	</select>

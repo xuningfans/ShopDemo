@@ -13,7 +13,7 @@
 	<!-- 插入单条数据 -->
 	<insert id="insert" parameterType="user">
 		insert into
-		user(user_name,user_password,user_type)
+		user(user_id,user_name,user_password,user_type)
 		values(#{userName},#{userPassword},#{userType})
 	</insert>
 
@@ -99,6 +99,12 @@
 			</if>
 		</where>
 		<!-- limit #{start},#{rows} -->
+	</select>
+	
+	<!-- 用户登录 -->
+	<select id="login" parameterType="user" resultMap="userResultMap">
+		select user_id,user_name,user_password,user_type from user
+		where user_name=#{userName} and user_password = #{userPassword}
 	</select>
 
 </mapper>

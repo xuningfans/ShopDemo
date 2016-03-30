@@ -80,7 +80,7 @@ public class TestOrdersService {
 		Orders orders = new Orders();
 		orders.setOrdersId(2);
 		User u = new User();
-		u.setUserId(1);
+		u.setUserId(24);
 		u.setUserName("aaa");
 		u.setUserPassword("123");
 		u.setUserType(1);
@@ -91,7 +91,7 @@ public class TestOrdersService {
 		orders.setOrdersPrice(15.00);
 //		orders.setState(OrderEnum.BUY);
 		
-		System.out.println(orderService.select(orders));
+		System.out.println(orderService.selectOrders(u));
 	}
 	
 	@Test

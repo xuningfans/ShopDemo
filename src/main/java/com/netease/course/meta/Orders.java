@@ -1,14 +1,22 @@
 package com.netease.course.meta;
 
+import java.io.Serializable;
 
-public class Orders {
+/**
+ * 订单Bean
+ * 
+ * @author 公猴脖子男
+ */
+public class Orders implements Serializable {
+
+	private static final long serialVersionUID = -6451396726989021732L;
 
 	private Integer ordersId;
 
 	private User user;
 
 	private Double ordersPrice;
-	
+
 	private Product product;
 
 	private OrderEnum state;
@@ -52,10 +60,10 @@ public class Orders {
 	public void setState(int i) {
 		this.state = OrderEnum.valueOf(i);
 	}
-	
-/*	public void setState(OrderEnum state) {
-		this.state = state;
-	}*/
+
+	/*
+	 * public void setState(OrderEnum state) { this.state = state; }
+	 */
 
 	@Override
 	public String toString() {

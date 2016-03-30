@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
+/**
+ * 用户Bean
+ * @author 公猴脖子男
+ */
 public class User implements Serializable {
 	private static final long serialVersionUID = 8461355401694402895L;
 

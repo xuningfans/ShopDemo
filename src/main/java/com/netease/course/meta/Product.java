@@ -1,13 +1,21 @@
 package com.netease.course.meta;
 
+import java.io.Serializable;
 
-public class Product {
-    private Integer productId;
+/**
+ * 商品Bean
+ * @author 公猴脖子男
+ */
+public class Product implements Serializable {
+
+	private static final long serialVersionUID = -5082637775244308663L;
+
+	private Integer productId;
 
     private String productTitle;
 
     private String productImage;
-
+    
     private String productDetail;
 
     private Double productPrice;

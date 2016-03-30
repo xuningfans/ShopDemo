@@ -1,5 +1,10 @@
 package com.netease.course.meta;
 
+/**
+ * 订单状态枚举
+ * 
+ * @author 公猴脖子男
+ */
 public enum OrderEnum {
 	BUY("已下单", 0), PAY("已付款", 1), DELIVER("已发货", 2);
 
@@ -18,7 +23,7 @@ public enum OrderEnum {
 	public int getValue() {
 		return value;
 	}
-	
+
 	/** 定义枚举类型自己的方法 **/
 	public static OrderEnum valueOf(int i) {
 		switch (i) {
@@ -32,6 +37,5 @@ public enum OrderEnum {
 			return null;
 		}
 	}
-
 
 }

@@ -13,8 +13,21 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.netease.course.meta.Product;
 
+/**
+ * 文件工具类
+ *
+ * @author 公猴脖子男
+ */
 public class MyFileUtils {
 
+	/****************************************************
+	 * 将request中的文件保存，并将保存路径封装到Product中
+	 * 
+	 * @param rootPath
+	 * @param product
+	 * @param request
+	 * @throws IOException
+	 ****************************************************/
 	public static void saveFile(String rootPath, Product product, HttpServletRequest request) throws IOException {
 
 		// 将request转换成multiRequest
@@ -30,6 +43,7 @@ public class MyFileUtils {
 			MultipartFile multipartFile = multiRequest.getFile(upFileName);
 			// 如果没有文件，跳过此次循环
 			if (multipartFile.isEmpty()) {
+				product.setProductImage("");
 				continue;
 			}
 			// 获取当前时间戳
@@ -50,9 +64,9 @@ public class MyFileUtils {
 			// 通过流保存上传文件
 			FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), new File(fullSavePath));
 
+			// 封装保存路径
 			product.setProductImage(fullSavePath.replace(rootPath, ""));
 			product.setIsSell(true);
-			System.out.println(product);
 		}
 	}
 }

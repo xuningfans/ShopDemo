@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html>
 <head>
 <title>用户</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	function reload() {
 		window.top.left.location.href="menu";
-		window.top.right.location.href="main";
+		window.top.right.location.href="list";
 	}
 </script>
 </head>

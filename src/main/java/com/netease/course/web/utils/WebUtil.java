@@ -1,6 +1,5 @@
 package com.netease.course.web.utils;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,25 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.netease.course.meta.User;
-import com.netease.course.service.UserService;
 
 /**
  * @author 公猴脖子男
  */
-@Component
 public class WebUtil {
-	
-	@Autowired
-	private static UserService userService;
 
 	/**
 	 * JSON转换器
@@ -41,12 +32,14 @@ public class WebUtil {
 	public static final ObjectMapper OBJECTMAPPER = new ObjectMapper();
 	public static final ObjectWriter OBJECTWRITER = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
-	/**
+	/**************************************************
+	 * 从Cookie和Session中验证用户权限
+	 * 
 	 * @param session
 	 * @param request
 	 * @param model
 	 * @return
-	 */
+	 ***************************************************/
 	public static User getUserByCookieAndSession(HttpSession session, HttpServletRequest request) {
 		// 从Session中验证用户名密码
 		User loginUser = null;
@@ -60,26 +53,20 @@ public class WebUtil {
 		cookieUser = jsonCookie2Bean(request.getCookies(), User.class);
 		if (cookieUser != null) {
 			if (validData(cookieUser.getUserName()) && validData(cookieUser.getUserPassword())) {
-
-				loginUser = userService.login(cookieUser);
-				if (loginUser != null) {
-					session.setAttribute("loginUser", loginUser);
-
-					return loginUser;
-				}
+				return loginUser;
 			}
 		}
-		return loginUser;
+		return null;
 	}
 
-	/**
+	/************************************************************
 	 * 为客户端设置Cookie
 	 * 
 	 * @param response
 	 * @param user
 	 * @throws JsonProcessingException
 	 * @throws UnsupportedEncodingException
-	 */
+	 ************************************************************/
 	public static <T> void setCookie(HttpServletResponse response, T obj, Integer age)
 			throws JsonProcessingException, UnsupportedEncodingException {
 
@@ -97,13 +84,13 @@ public class WebUtil {
 		response.addCookie(cookie);
 	}
 
-	/**
+	/***********************************************************
 	 * 将Cookie中的json字符串转化成对象返回
 	 * 
 	 * @param cookies
 	 * @param clazz
 	 * @return
-	 */
+	 ***********************************************************/
 	public static <T> T jsonCookie2Bean(Cookie[] cookies, Class<T> clazz) {
 		if (cookies != null) {
 
@@ -118,6 +105,13 @@ public class WebUtil {
 		return null;
 	}
 
+	/************************************************
+	 * 将字符串转换成实体Bean
+	 * 
+	 * @param clazz
+	 * @param cookie
+	 * @return
+	 ************************************************/
 	public static <T> T jsonUser2Bean(Class<T> clazz, String cookie) {
 		try {
 			// 获取Cookie
@@ -138,6 +132,10 @@ public class WebUtil {
 
 	/**
 	 * 将对应的Cookie数组转换成Java bean
+	 * 
+	 * @param cookies
+	 * @param clazz
+	 * @return
 	 */
 	public static <T> T cookie2Bean(Cookie[] cookies, Class<T> clazz) {
 		try {
