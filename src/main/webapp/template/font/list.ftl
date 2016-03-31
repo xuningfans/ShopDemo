@@ -14,7 +14,7 @@
   				<#list products as product>
 	  				<div id="product">
 	  					<div id="image">
-	  						<img src="<@spring.url '/${product.productImage }'/>"/>
+	  						<img src="<@spring.url '${product.productImage }'/>"/>
 	  					</div>
 	  					<div id="info">
 	  						<li>${product.productId }</li>

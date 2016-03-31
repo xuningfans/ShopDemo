@@ -133,34 +133,9 @@ public class UserController extends BaseController {
 		return "font/loginhead";
 	}
 
-	/*********************************************************
-	 * 主页
-	 * 
-	 * @param model
-	 * @return
-	 *********************************************************/
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-	public String root() {
-		return "index";
-	}
 
-	/*********************************************************
-	 * 左侧菜单页
-	 * 
-	 * @param session
-	 * @param request
-	 * @param model
-	 * @return
-	 *********************************************************/
-	@RequestMapping(value = { "/menu" }, method = RequestMethod.GET)
-	public String menu(HttpSession session, HttpServletRequest request, ModelMap model) {
-		// 根据用户显示菜单
-		User loginUser = getUserByCookieAndSession(session, request);
-		if (loginUser != null) {
-			model.addAttribute("user", loginUser);
-		}
-		return "menu";
-	}
+
+	
 	/*
 	 * @RequestMapping(value = { "/test" }, method = RequestMethod.GET) public
 	 * Model login(Model model) { User u = new User(); u.setUserName("aaa");
