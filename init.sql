@@ -61,4 +61,6 @@ create table if not exists orders
    primary key (orders_id)
 )ENGINE=InnoDB;
 
+insert into user(user_name,user_password,user_type)
+values('seller','relles',1),('buyer','reyub',0);
 select * from user;
