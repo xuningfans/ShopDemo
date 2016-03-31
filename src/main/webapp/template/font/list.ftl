@@ -11,7 +11,7 @@
   	<div id="container">
   		<div id="main">
   			<div id="goods">
-  				<#list products as product>
+  				<#list pageBean.list as product>
 	  				<div id="product">
 	  					<div id="image">
 	  						<img src="<@spring.url '${product.productImage }'/>"/>
@@ -44,6 +44,13 @@
   				</#list>
   				<div style="clear: both"></div>
   				<br/>
+  				<div id="pagebar">
+  					总共${pageBean.totalPage }页
+  					当前${pageBean.currentPage }页
+  					<#list pageBean.pageBar as page>
+  						<a href="<@spring.url '/list?currentpage=${page_index+1 }'/>">${page_index+1 }</a>
+  					</#list>
+  				</div>
   			</div>
   		</div>
    	</div>

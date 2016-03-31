@@ -38,10 +38,11 @@
 		where
 		product_id=#{productId}
 	</update>
-	
+
+	<!-- 查询单条商品 -->
 	<select id="select" resultMap="productResultMap" parameterType="product">
 		select
-		product_id,product_title,product_image,product_detail,product_price,product_summary,is_sell
+		<include refid="productColumn" />
 		from product
 		<where>
 			<if test="productId != null">
@@ -50,9 +51,11 @@
 		</where>
 	</select>
 
-	<select id="selectList" resultMap="productResultMap" parameterType="product">
+	<!-- 查询多条商品 -->
+	<select id="selectList" resultMap="productResultMap"
+		parameterType="product">
 		select
-		product_id,product_title,product_image,product_detail,product_price,product_summary,is_sell
+		<include refid="productColumn" />
 		from product
 		<where>
 			<if test="product_id != null">
@@ -61,4 +64,19 @@
 		</where>
 	</select>
 
+	<!-- 分页查找商品 -->
+	<select id="getPageData" parameterType="querryInfo" resultMap="productResultMap">
+		select
+		<include refid="productColumn" />
+		from product limit #{startIndex},#{pageSize}
+	</select>
+
+	<!-- 查找商品记录数 -->
+	<select id="getRecord" parameterType="querryInfo" resultType="Integer">
+		select count(1) from product
+	</select>
+
+	<sql id="productColumn">
+		product_id,product_title,product_image,product_detail,product_price,product_summary,is_sell
+	</sql>
 </mapper>
