@@ -35,5 +35,5 @@ public interface OrdersService extends BaseService<Orders> {
 	 * 
 	 * @return 查询结果集合
 	 */
-	List<Orders> selectAll();
+//	List<Orders> selectAll();
 }

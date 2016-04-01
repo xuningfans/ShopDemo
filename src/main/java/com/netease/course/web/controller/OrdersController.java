@@ -1,10 +1,12 @@
 package com.netease.course.web.controller;
 
+import static com.netease.course.web.utils.WebUtil.getUserByCookieAndSession;
 import static com.netease.course.web.utils.WebUtil.jsonUser2Bean;
 
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.netease.course.meta.Orders;
 import com.netease.course.meta.User;
 import com.netease.course.service.OrdersService;
+import com.netease.course.service.UserService;
 
 /*********************************************
  * 订单相关Controller
@@ -31,6 +34,12 @@ public class OrdersController extends BaseController {
 	@Resource
 	private OrdersService ordersService;
 
+	/**
+	 * 自动注入用户Service层
+	 */
+	@Resource
+	private UserService userService;
+
 	/******************************************
 	 * 订单列表
 	 * 
@@ -41,23 +50,17 @@ public class OrdersController extends BaseController {
 	 * @return
 	 *******************************************/
 	@RequestMapping(value = "/listorders")
-	public String listorder(@CookieValue(value = "jsonUser", required = false) String jsonUser, HttpSession session,
-			ModelMap model) {
+	public String listorder(HttpServletRequest request, HttpSession session, ModelMap model) {
 
-		// 从Session中验证用户
-		User user = (User) session.getAttribute("loginUser");
+		// 调用WebUtil中getUserByCookieAndSession方法验证登录信息
+		User user = getUserByCookieAndSession(session, request);
 		if (user != null) {
-			List<Orders> orders = ordersService.selectOrders(user);
-			model.addAttribute("orders", orders);
-			return "listorder";
-		}
-
-		// 从Cookie中验证用户
-		if (jsonUser != null) {
-			user = jsonUser2Bean(User.class, jsonUser);
-			List<Orders> orders = ordersService.selectOrders(user);
-			model.addAttribute("orders", orders);
-			return "listorder";
+			User loginUser = userService.login(user.getUserName(), user.getUserPassword());
+			if (loginUser != null) {
+				List<Orders> orders = ordersService.selectOrders(loginUser);
+				model.addAttribute("orders", orders);
+				return "listorder";
+			}
 		}
 
 		// 验证不通过，用户需登录

@@ -48,7 +48,7 @@
   					总共${pageBean.totalPage }页
   					当前${pageBean.currentPage }页
   					<#list pageBean.pageBar as page>
-  						<a href="<@spring.url '/list?currentpage=${page_index+1 }'/>">${page_index+1 }</a>
+  						<a href="<@spring.url '/list?currentPage=${page_index+1 }'/>">${page_index+1 }</a>
   					</#list>
   				</div>
   			</div>

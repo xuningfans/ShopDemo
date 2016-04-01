@@ -26,6 +26,9 @@ public class OrdersServiceImpl extends BaseServiceImpl<Orders> implements Orders
 	 */
 	@Override
 	public List<Orders> selectOrders(User user) {
+		if (user.getUserType() == 1) {
+			return ordersDao.selectAll();
+		}
 		return ordersDao.selectOrders(user);
 	}
 
@@ -33,11 +36,11 @@ public class OrdersServiceImpl extends BaseServiceImpl<Orders> implements Orders
 	 * 查找所有订单（管理员）
 	 * 
 	 * @return 查询结果集合
-	 */
+	 *//*
 	@Override
 	public List<Orders> selectAll() {
 		return ordersDao.selectAll();
-	}
+	}*/
 
 	/**
 	 * 购买并生成订单
